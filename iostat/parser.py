@@ -5,11 +5,6 @@ from datetime import datetime
 from .filters import get_filters
 from .utils import get_logger
 
-IOSTAT_DATE_FORMAT = '%m/%d/%Y %I:%M:%S %p'
-IOSTAT_DATE = re.compile(r"""
-(?P<date>^\d{2}/\d{2}/\d{4}\s*\d{2}:\d{2}:\d{2}\s*(AM|PM))
-""", re.VERBOSE)
-
 log = get_logger()
 
 
@@ -25,6 +20,8 @@ class Parser:
         self.state = None
         self.filters = get_filters(args)
         self.init_stat()
+        self.iostat_date_format = args.iostat_date_format
+        self.iostat_date_regex = re.compile(fr"{args.iostat_date_pattern}", re.VERBOSE)
 
     def init_stat(self):
         self.date = None
@@ -48,8 +45,8 @@ class Parser:
         stat = {s[0]: [float(i) for i in s[1:]]}
         self.device_stat['stats'].append(stat)
 
-    def parse_columns(self, d, line):
-        d['columns'] = line[line.find(':') + 1:].strip().split()
+    def parse_columns(self, d, line, delimiter):
+        d['columns'] = line[line.find(delimiter) + len(delimiter):].strip().split()
 
     def _parse(self, line):
         if line == '\n':
@@ -62,20 +59,20 @@ class Parser:
         elif self.state == self.DEVICE:
             self.parse_device_stat(line)
         else:
-            m = re.search(IOSTAT_DATE, line)
+            m = re.search(self.iostat_date_regex, line)
             if m is not None:
                 if self.date is not None:
                     yield self.make_stat()
 
                 self.init_stat()
-                self.date = datetime.strptime(line, IOSTAT_DATE_FORMAT)
+                self.date = datetime.strptime(line, self.iostat_date_format)
                 self.state = self.DATE
             else:
                 if line.startswith('avg-cpu:'):
-                    self.parse_columns(self.cpu_stat, line)
+                    self.parse_columns(self.cpu_stat, line, ':')
                     self.state = self.CPU
-                elif line.startswith('Device:'):
-                    self.parse_columns(self.device_stat, line)
+                elif line.startswith('Device'):
+                    self.parse_columns(self.device_stat, line, 'Device')
                     self.state = self.DEVICE
                 else:
                     log.debug('not handled line: %s', line)

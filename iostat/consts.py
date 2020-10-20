@@ -19,11 +19,12 @@ IOPS = 'iops'
 IO_TRANSFER = 'io_transfer'
 PERCENT_UTIL = '%util'
 AVGRQ_SZ = 'avgrq-sz'
+AREQ_SZ = 'areq-sz'     # new name for AVGRQ_SZ but kilobytes instead of sectors
 AVGQU_SZ = 'avgqu-sz'
+AQU_SZ = 'aqu-sz'       # new name for AVGQU_SZ
 AWAIT = 'await'
-SVCTM = 'svctm'
 
 DEVICE_SUBPLOTS = [
     IO_RQM, IOPS, IO_TRANSFER, PERCENT_UTIL,
-    AVGRQ_SZ, AVGQU_SZ, AWAIT, SVCTM,
+    AVGRQ_SZ, AREQ_SZ, AVGQU_SZ, AQU_SZ, AWAIT
 ]

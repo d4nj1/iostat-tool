@@ -5,7 +5,7 @@ from matplotlib import dates as mdates
 from matplotlib import gridspec
 from matplotlib import pyplot as plt
 
-from .consts import AVGRQ_SZ, AVGQU_SZ, AWAIT, SVCTM
+from .consts import AVGRQ_SZ, AREQ_SZ, AVGQU_SZ, AQU_SZ, AWAIT
 from .consts import IO_RQM, IOPS, IO_TRANSFER, PERCENT_UTIL
 from .renderer import Renderer
 from .utils import get_logger
@@ -80,14 +80,14 @@ class Plotter(Renderer):
         elif name == AVGRQ_SZ:
             subplot.set_title('average size (in sectors) of the requests')
             subplot.set_ylabel('sectors')
-        elif name == AVGQU_SZ:
+        elif name == AREQ_SZ:
+            subplot.set_title('average size (in kilobytes) of the i/o requests')
+            subplot.set_ylabel('kilobytes')
+        elif name == AVGQU_SZ or name == AQU_SZ:
             subplot.set_title('average queue length of the requests')
             subplot.set_ylabel('length')
         elif name == AWAIT:
             subplot.set_title('average time for i/o requests')
-            subplot.set_ylabel('milliseconds')
-        elif name == SVCTM:
-            subplot.set_title('average service time')
             subplot.set_ylabel('milliseconds')
         else:
             raise NotImplementedError('unsupported subplot: %s' % name)
@@ -137,15 +137,17 @@ class Plotter(Renderer):
                             'rsec/s', 'wsec/s',  # by default
                         ]
                     elif name == PERCENT_UTIL:
-                        columns = ['%util']
+                        columns = [PERCENT_UTIL]
                     elif name == AVGRQ_SZ:
-                        columns = ['avgrq-sz']
+                        columns = [AVGRQ_SZ]
+                    elif name == AREQ_SZ:
+                        columns = [AREQ_SZ, f'r{AREQ_SZ}', f'w{AREQ_SZ}', f'd{AREQ_SZ}']
                     elif name == AVGQU_SZ:
-                        columns = ['avgqu-sz']
+                        columns = [AVGQU_SZ]
+                    elif name == AQU_SZ:
+                        columns = [AQU_SZ]
                     elif name == AWAIT:
-                        columns = ['await', 'r_await', 'w_await']
-                    elif name == SVCTM:
-                        columns = ['await', 'svctm']
+                        columns = [AWAIT, f'r_{AWAIT}', f'w_{AWAIT}', f'd_{AWAIT}', f'f_{AWAIT}']
                     else:
                         assert False
                     set_data_value(data, columns, _disk_stat_data)

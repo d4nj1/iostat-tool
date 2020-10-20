@@ -8,7 +8,7 @@ this_directory = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(this_directory, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
-main_py = open('iostat/main.py').read()
+main_py = open('iostat/__main__.py').read()
 metadata = dict(re.findall("__([a-z]+)__ = '([^']+)'", main_py))
 
 setup(
@@ -43,9 +43,9 @@ setup(
     include_package_data=True,
     install_requires=['matplotlib'],
     tests_require=['tox', 'pytest', 'pytest-pep8', 'pytest-flakes'],
-    entry_points = {
+    entry_points={
         'console_scripts': [
-            'iostat-cli=iostat.main:main',
+            'iostat-cli=iostat.__main__:main',
         ],
     },
 )

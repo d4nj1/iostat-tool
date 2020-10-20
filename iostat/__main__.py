@@ -124,6 +124,8 @@ def parse_argument():
         figoutput=None,
         figsize=None,
         output='iostat.log',
+        iostat_date_pattern='(?P<date>^\d{2}/\d{2}/\d{4}\s*\d{2}:\d{2}:\d{2}\s*(AM|PM))',
+        iostat_date_format='%m/%d/%Y %I:%M:%S %p',
         # filter options
         disks=[],
         with_cpu=True,
@@ -153,6 +155,16 @@ def parse_argument():
     parser.add_argument(
         '--output', action='store',
         help='set path to save output of iostat',
+    )
+
+    # output parser date format
+    parser.add_argument(
+        '--iostat-date-pattern', action='store', dest='iostat_date_pattern',
+        help='set date pattern to match in iostat output',
+    )
+    parser.add_argument(
+        '--iostat-date-format', action='store', dest='iostat_date_format',
+        help='set date format to convert from iostat matches',
     )
 
     # filter options

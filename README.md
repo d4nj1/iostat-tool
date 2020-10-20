@@ -22,7 +22,7 @@ $ man iostat
 $ pip install iostat-tool
 ```
 
-### as a Docker container
+### run as a Docker container
 
 See [iostat-tool Docker environment](DOCKER.md)
 

@@ -24,7 +24,7 @@ $ pip install iostat-tool
 
 ### run as a Docker container
 
-See [iostat-tool Docker environment](DOCKER.md)
+See [iostat-cli Docker environment](DOCKER.md)
 
 ### for developer
 

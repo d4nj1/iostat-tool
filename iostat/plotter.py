@@ -44,6 +44,9 @@ class Plotter(Renderer):
             self.cpu.set_title('cpu average')
             self.cpu.set_ylim(0, 100)
             self.cpu.set_ylabel('percent')
+            if self.args.x_datetime_format is not None:
+                x_format = mdates.DateFormatter(self.args.x_datetime_format)
+                self.cpu.xaxis.set_major_formatter(x_format)
 
         self.subplots = {}
         gs_range = [(i, j) for j in (0, 1)

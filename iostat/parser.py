@@ -71,6 +71,9 @@ class Parser:
                 if line.startswith('avg-cpu:'):
                     self.parse_columns(self.cpu_stat, line, ':')
                     self.state = self.CPU
+                elif line.startswith('Device:'):
+                    self.parse_columns(self.device_stat, line, 'Device:')
+                    self.state = self.DEVICE
                 elif line.startswith('Device'):
                     self.parse_columns(self.device_stat, line, 'Device')
                     self.state = self.DEVICE

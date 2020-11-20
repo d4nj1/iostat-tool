@@ -12,7 +12,7 @@ There also exists a prebuild Docker container which can be pulled with
 `docker pull d4nji/iostat-tool:latest`
 
 The internal user is called **cli** and has the UID 1024. If you use this container please make sure to either run with the same UID or root by using `docker run -u root`.
-Another possible way is to change `out`-folder permission to be writable by anyone (`chmod -R a+w out`).
+Another possible way is to change `out`-folder permission to be read and writable by anyone (`chmod -R a+rw out`).
 
 #### Run Docker container
 After you build the container you can just execute the container to see the command information:

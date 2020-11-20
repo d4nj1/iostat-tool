@@ -1,5 +1,4 @@
 FROM amazonlinux:2
-MAINTAINER Daniel Christophis <code@devmind.org>
 
 ARG UID=1024
 ARG GID=1024

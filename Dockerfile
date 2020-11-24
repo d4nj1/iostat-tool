@@ -1,4 +1,5 @@
 FROM amazonlinux:2
+MAINTAINER Daniel Christophis <code@devmind.org>
 
 ARG UID=1024
 ARG GID=1024
@@ -6,8 +7,7 @@ ARG GID=1024
 RUN yum update -y
 RUN yum install -y \
     shadow-utils.x86_64 \
-    python3-pip \
-    which
+    python3-pip
 
 RUN groupadd -r -g $GID cli
 RUN useradd -r -m -s /bin/bash -g $GID -u $UID cli

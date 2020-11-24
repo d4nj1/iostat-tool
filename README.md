@@ -9,6 +9,7 @@ parse and visualize iostat output
 * [Matplotlib](https://matplotlib.org/)
 * Support output of iostat for Linux only
   * `iostat` command needs `-t` argument to get timestamp, and `-ymxt 1` arguments are recommended
+  * When prepending `LC_TIME=en_US LC_NUMERIC=en_US` to `iostat` command there will be no need to apply custom date or number format
 ```bash
 $ man iostat
   -t  Print the time for each report displayed. The timestamp format may depend on the value of the S_TIME_FORMAT environment variable (see below).
